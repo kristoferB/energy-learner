@@ -26,7 +26,7 @@ total_power = V.*I - P_cabinet; %Watt
 
 total_energy = sum(total_power)/sampleFrequency / 1000; %kW.s (kJouls)
 
-energy_noCabinet = total_energy; %- (P_cabinet)*(nf-ns)*0.0001 / 1000;%  rms(P_cabinet)*(ns*0.0001)/ 1000 
+%energy_noCabinet = total_energy; %- (P_cabinet)*(nf-ns)*0.0001 / 1000;%  rms(P_cabinet)*(ns*0.0001)/ 1000 
 
 %% Regeneration
 regenPower  = (total_power<0).*(total_power);
