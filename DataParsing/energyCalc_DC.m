@@ -1,7 +1,6 @@
 clear variables
 clc, close all
 
-%% 
 rawData = importdata('160429 - E - R30_original.csv');
 I = rawData.data(:,2);
 V = rawData.data(:,3);
