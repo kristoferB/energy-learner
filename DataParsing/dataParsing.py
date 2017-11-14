@@ -3,7 +3,8 @@ import pandas as pd
 # Loading original data
 # R10
 # Energy
-orig_energy_R10 = pd.read_csv('..\Data\Original\R10\E-R10_orig.csv', sep=',', header=None,names=['Time','Voltage','Current'], index_col=False, skiprows=9)
+orig_energy_R10 = pd.read_csv('..\Data\Original\R10\E-R10_orig.csv', sep=',', header=None,
+                              names=['Time','Voltage','Current'], index_col=False, skiprows=9)
 # Trajectory
 orig_traj_R10 = pd.read_table('..\Data\Original\R10\orig_traj.txt', delim_whitespace=True, header=None,
                            names=['Time', 'Axis 1', 'Axis 2', 'Axis 3', 'Axis 4', 'Axis 5', 'Axis 6'],
