@@ -14,7 +14,7 @@ orig_traj_R10 = pd.read_table('..\Data\Original\R10\orig_traj.txt', sep=' ', hea
 orig_energy_R30 = pd.read_csv('..\Data\Original\R30\E-R30_original.csv', sep=',', header=None,names=['Time','Voltage','Current'], index_col=False, skiprows=9)
 #Trajectory
 orig_traj_R30= pd.read_table('..\Data\Original\R30\orig_traj.txt', sep=' ', header=None,
-                           names=['Time', 'Axis 1', 'Axis 2', 'Axis 3', 'Axis 4', 'Axis 5', 'Axis 6'],
+                           names=['Time', 'Axis 1', 'Axis 2', 'Axis 3', 'Axis 4','Axis 5', 'Axis 6'],
                            skipinitialspace=True, skiprows=4,skipfooter=1,engine='python')
 
 
