@@ -1,4 +1,6 @@
 from math import sqrt
+from math import floor
+from math import ceil
 from numpy import concatenate
 from matplotlib import pyplot
 from pandas import read_csv
@@ -36,36 +38,42 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 	return agg
 
 # load dataset
-dataset = read_csv('Data/Formated/R30_original_fitted.csv, header=0, index_col=0)
+dataset = read_csv('R30_original_fitted.csv', header=0, index_col=0)
 values = dataset.values
-# integer encode direction
-encoder = LabelEncoder()
-values[:,4] = encoder.fit_transform(values[:,4])
+
 # ensure all data is float
 values = values.astype('float32')
+
 # normalize features
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled = scaler.fit_transform(values)
-# specify the number of lag hours
-n_hours = 3
+
+# specify the number of lag indexes
+n_indexes = 3
 n_features = 8
+
 # frame as supervised learning
-reframed = series_to_supervised(scaled, n_hours, 1)
+reframed = series_to_supervised(scaled, n_indexes, 1)
 print(reframed.shape)
 
 # split into train and test sets
 values = reframed.values
-n_train_hours = 365 * 24
-train = values[:n_train_hours, :]
-test = values[n_train_hours:, :]
+train_test_ratio = 0.7 #70% training and 30% for validation
+train_indexes = floor(values.shape[1]*train_test_ratio)
+test_indexes = ceil(values.shape[1]*(1-train_test_ratio))
+
+train = values[:train_indexes, :]
+test = values[test_indexes:, :]
+
 # split into input and outputs
-n_obs = n_hours * n_features
+n_obs = n_indexes * n_features
 train_X, train_y = train[:, :n_obs], train[:, -n_features]
 test_X, test_y = test[:, :n_obs], test[:, -n_features]
 print(train_X.shape, len(train_X), train_y.shape)
+
 # reshape input to be 3D [samples, timesteps, features]
-train_X = train_X.reshape((train_X.shape[0], n_hours, n_features))
-test_X = test_X.reshape((test_X.shape[0], n_hours, n_features))
+train_X = train_X.reshape((train_X.shape[0], n_indexes, n_features))
+test_X = test_X.reshape((test_X.shape[0], n_indexes, n_features))
 print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
 # design network
@@ -83,7 +91,7 @@ pyplot.show()
 
 # make a prediction
 yhat = model.predict(test_X)
-test_X = test_X.reshape((test_X.shape[0], n_hours*n_features))
+test_X = test_X.reshape((test_X.shape[0], n_indexes*n_features))
 # invert scaling for forecast
 inv_yhat = concatenate((yhat, test_X[:, -7:]), axis=1)
 inv_yhat = scaler.inverse_transform(inv_yhat)
