@@ -37,9 +37,3 @@ opt_energy_R10_secondTry = pd.read_csv('..\Data\Optimized\R10\E-R10_opt_secondTr
 opt_traj_R10 = pd.read_table('..\Data\Optimized\R10\opt_traj.txt', sep=' ', header=None,
                            names=['Time', 'Axis 1', 'Axis 2', 'Axis 3', 'Axis 4', 'Axis 5', 'Axis 6'],
                            skipinitialspace=True, skiprows=4,skipfooter=1,engine='python')
-opt_traj_R10_first_second = pd.read_table('..\Data\Optimized\R10\R10_temp_first_second.txt', sep=' ', header=None,
-                           names=['Time', 'Axis 1', 'Axis 2', 'Axis 3', 'Axis 4', 'Axis 5', 'Axis 6'],
-                           skipinitialspace=True, skiprows=4,skipfooter=1,engine='python')
-opt_traj_R10_temp_old = pd.read_table('..\Data\Optimized\R10\R10_temp_old.txt', sep=' ', header=None,
-                           names=['Time', 'Axis 1', 'Axis 2', 'Axis 3', 'Axis 4', 'Axis 5', 'Axis 6'],
-                           skipinitialspace=True, skiprows=4,skipfooter=1,engine='python')
