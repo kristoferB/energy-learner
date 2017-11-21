@@ -1,7 +1,7 @@
 clear variables
 clc, close all
 
-rawData = importdata('Data\Original\R30\E-R30_original.csv');
+rawData = importdata('Data\Raw\R30\E-R30_original.csv');
 I = rawData.data(:,2);
 V = rawData.data(:,3);
 
@@ -103,3 +103,4 @@ A.data = A.data(1:end-5 , :);
 headers = {'Time','Axis 1','Axis 2','Axis 3','Axis 4','Axis 5','Axis 6','Power [Watt]','Consumed Power [Watt]'};
 toCSV = [A.data filt_power filt_usedPower];
 csvwrite_with_headers('fitted_data.csv',toCSV,headers);
+
