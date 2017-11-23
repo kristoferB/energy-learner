@@ -78,8 +78,8 @@ for i in range(0, 7):
     history = model.fit(training_data[i].scaled_features, training_data[i].scaled_output, batch_size=26, epochs=60,
                         validation_data=(training_data[8].scaled_features, training_data[8].scaled_output), verbose=2, shuffle=False)
 
-y_hat = model.predict(training_data[8].scaled_features)
-y_inv = training_data[8].scaler_power.inverse_transform(y_hat)
+y_hat = model.predict(training_data[7].scaled_features)
+y_inv = training_data[7].scaler_power.inverse_transform(y_hat)
 pyplot.plot(y_inv)
-pyplot.plot(training_data[8].power)
+pyplot.plot(training_data[7].power)
 pyplot.show()
