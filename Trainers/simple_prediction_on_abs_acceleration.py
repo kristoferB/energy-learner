@@ -71,7 +71,7 @@ scaler_output = MinMaxScaler(feature_range=(0, 1))
 scaled_features = scaler_input.fit_transform(features)
 scaled_output = scaler_output.fit_transform(power)
 
-#Use 70% as training data
+# Use 70% as training data
 (sample_length, _) = scaled_features.shape
 n_train_samples = floor(sample_length*0.7)
 
@@ -80,9 +80,9 @@ train_Y = scaled_output[:n_train_samples, :]
 test_X = scaled_features[n_train_samples:, :]
 test_Y = scaled_output[n_train_samples:, :]
 
-#Plot testing and training data
+# Plot testing and training data
 pyplot.figure(1)
-#Train plot
+# Train plot
 pyplot.subplot(7,2,1)
 pyplot.plot(train_X[:, 0])
 pyplot.title("Acc 1 Train", y=0.5, loc="right")

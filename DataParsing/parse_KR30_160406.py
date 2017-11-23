@@ -10,7 +10,7 @@ downsampling_factor = 10*12
 # Number difference between files i.e 1.txt, 2.txt, 3.txt, 4.txt and so on
 for file_number in range(1, 10):
     folder_path = '../Data/Raw/160406- KR30-Sensitivity Analises/Results/jerk/'
-    output_path = '../Data/Raw/160406- KR30-Sensitivity Analises/Results/jerk/'
+    output_path = "../Data/Formated/160406/"
     file_name_power = '160413 - E - jerk-' + str(file_number) + '.txt'
     file_name_trajectory = str(file_number) + '.txt'
 
@@ -100,4 +100,4 @@ for file_number in range(1, 10):
     data["Power"] = power
 
     # Write
-    data.to_csv(output_path+"output_py_"+str(file_number)+".csv", sep=',', encoding='utf-8')
+    data.to_csv(output_path+"output_py_"+str(file_number)+".csv", sep=',', encoding='utf-8', index=False)
