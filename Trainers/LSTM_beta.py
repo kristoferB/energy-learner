@@ -12,6 +12,7 @@ from numpy import sqrt
 import numpy
 import math
 from Trainers.SampledDataSet import SampledDataSet
+from Trainers.SampledDataSet import load_160406
 #from Trainers.simple_prediction_training_seperate_files import load_160406
 from Trainers.SeriesToSupervised import series_to_supervised
 import h5py
