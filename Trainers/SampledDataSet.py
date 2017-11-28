@@ -1,5 +1,6 @@
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
+import pandas as pd
 class SampledDataSet:
     """
         Use this data holder class to hold sampled data, parsed with a parsing script similar to the parse_KR40 script
@@ -35,3 +36,9 @@ class SampledDataSet:
 
     def __str__(self):
         return str(self.features)
+
+    def load_160406(file_number):
+        folder_path = "../Data/Formated/160406/"
+        file_name = "output_py_" + str(file_number) + ".csv"
+        data = pd.read_csv(folder_path + file_name, sep=",")
+        return data
