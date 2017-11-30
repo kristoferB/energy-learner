@@ -106,13 +106,6 @@ if should_save == 'y' or should_save == 'Y':
 
 
 
-# Save model
-#
-
-# Load Model
-# model=load_model('LSTM_alpha.h5')
-
-
 #
 # Prediction on another datafile
 #
