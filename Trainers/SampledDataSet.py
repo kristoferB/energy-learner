@@ -34,6 +34,9 @@ class SampledDataSet:
         self.scaled_features = self.scaler_features.fit_transform(self.features)
         self.scaled_output = self.scaler_power.fit_transform(self.power)
 
+        # Consumed energy of sequence in [kWh]
+        self.energy = sum(self.power)*(self.timestamps[1]-self.timestamps[0])/3600
+
     def __str__(self):
         return str(self.features)
 
