@@ -22,7 +22,7 @@ print('train data')
 print(training_data[0].scaled_features.shape)
 
 # convert training time-series to supervised learning
-n_time_steps=2
+n_time_steps=100
 n_features=24
 reframed_train_x = series_to_supervised(training_data[0].scaled_features,n_in=n_time_steps,n_out=1)
 reframed_test_x = series_to_supervised(test_data[0].scaled_features,n_in=n_time_steps,n_out= 1)
@@ -81,12 +81,12 @@ pyplot.show()
 
 # Save model
 model.save('LSTM_beta.h5')
-
-
 '''
+
+
 # Load Model
 model=load_model('LSTM_beta.h5')
-
+model.save('LSTM_171130_100timeSteps_150epochs_10batch.h5')
 
 
 # make a prediction
@@ -118,6 +118,7 @@ print('Test RMSE: %.3f' % rmse)
 Esum=sum(inv_y-inv_yhat)
 print("Energy")
 print(test_data[0].energy)
+print(Esum)
 
 pyplot.figure(2)
 pyplot.plot(inv_y)
