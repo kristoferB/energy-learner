@@ -7,16 +7,19 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 
+import os
+print(os.path.dirname(os.path.abspath(__file__)))
+print(os.getcwd())
 
 def load_r30():
     """
     Loads the R30_original_fitted.csv data.
     :return: (Column names, values matrix)
     """
-    dataset = pd.read_csv('..Data/Formated/fitted_data_simple1.csv')
+    dataset = pd.read_csv('../Data/Formated/fitted_data_simple1.csv')
     values = dataset.values
 
-    dataset_validation = pd.read_csv('..Data/Formated/fitted_data_simple2.csv')
+    dataset_validation = pd.read_csv('../Data/Formated/fitted_data_simple1.csv')
     values_validation= dataset_validation.values
 
     return (dataset.columns.values, values, values_validation)
@@ -39,12 +42,12 @@ def plot_axis_and_power(xvalues, values, titles=['Axis 1','Axis 2','Axis 3','Axi
 # Pick timestamps from loaded data
 timestamps = values[:, 0:1]
 # Pick measured angles from loaded data
-angles = values[:, 1:6]
+angles = values[:, 1:-1]
 # Pick power consumption from loaded data
 power = values[:, -1:]
 
 # Validation data
-angles_validation = values[:, 1:6]
+angles_validation = values[:, 1:-1]
 power_validation = values_validation[:, -1:]
 
 
@@ -59,7 +62,9 @@ acc_validation = np.gradient(omega_validation, axis=0)
 
 # Take absolute value of acceleration since orientation does not effect power consumption
 acc_abs = np.absolute(acc)
+#acc_abs = np.power(acc,2)
 acc_abs_validation = np.absolute(acc_validation)
+#acc_abs_validation = np.power(acc_validation,2)
 
 """
 #Plot the results
@@ -84,16 +89,12 @@ scaled_output = scaler_output.fit_transform(power)
 scaled_features_validation = scaler_input.fit_transform(features_validation)
 scaled_output_validation = scaler_output.fit_transform(power_validation)
 
-#Use 100% as training data
-(sample_length, _) = scaled_features.shape
-#n_train_samples = floor(sample_length*0.7)
-train_X = scaled_features[:sample_length, :]
-train_Y = scaled_output[:sample_length, :]
 
-#Validate on whole set
-(sample_length, _) = scaled_features_validation.shape
-test_X = scaled_features_validation[sample_length:, :]
-test_Y = scaled_output_validation[sample_length:, :]
+train_X = scaled_features[:, :]
+train_Y = scaled_output[:, :]
+
+test_X = scaled_features_validation[:, :]
+test_Y = scaled_output_validation[:, :]
 
 #Plot testing and training data
 pyplot.figure(1)
@@ -112,10 +113,10 @@ pyplot.plot(train_X[:, 3])
 pyplot.title("Acc 4 Train", y=0.5, loc="right")
 pyplot.subplot(7,2,9)
 pyplot.plot(train_X[:, 4])
-pyplot.title("Acc 4 Train", y=0.5, loc="right")
+pyplot.title("Acc 5 Train", y=0.5, loc="right")
 pyplot.subplot(7,2,11)
 pyplot.plot(train_X[:, 5])
-pyplot.title("Acc 5 Train", y=0.5, loc="right")
+pyplot.title("Acc 6 Train", y=0.5, loc="right")
 
 
 #Test plot
@@ -160,7 +161,7 @@ model.add(Dense(12, activation="sigmoid"))
 model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer="adam", loss="mean_squared_error")
-history = model.fit(train_X, train_Y, batch_size=16, epochs=60,
+history = model.fit(train_X, train_Y, batch_size=2, epochs=60,
                     validation_data=(test_X, test_Y), verbose=2, shuffle=False)
 
 pyplot.plot(history.history['loss'], label='train')
@@ -174,3 +175,4 @@ y_hat = model.predict(test_X)
 pyplot.plot(y_hat)
 pyplot.plot(test_Y)
 pyplot.show()
+print("World")

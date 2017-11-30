@@ -22,7 +22,7 @@ def load_r30():
 
 
 
-def plot_axis_and_power(xvalues, values, titles=['Axis 1','Axis 2','Axis 3','Axis 4','Axis 5','Axis 6','Power Consumption'], fig=1):
+def plot_axis_and_power(xvalues, values, titles=['Axis 1','Axis 2','Axis 3','Axis 4','Axis 5','Axis 6','Power'], fig=1):
     (_,categories) = values.shape
     # plot each column
     pyplot.figure()
