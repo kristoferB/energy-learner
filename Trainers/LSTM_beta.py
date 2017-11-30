@@ -15,14 +15,14 @@ import h5py
 # Define data structure
 training_data = []
 test_data = []
-training_data.append(SampledDataSet(SampledDataSet.load_160406, 1))
-test_data.append(SampledDataSet(SampledDataSet.load_160406, 2))
+training_data.append(SampledDataSet(SampledDataSet.load_171128, 1))
+test_data.append(SampledDataSet(SampledDataSet.load_160406, 3))
 
 print('train data')
 print(training_data[0].scaled_features.shape)
 
 # convert training time-series to supervised learning
-n_time_steps=100
+n_time_steps=50
 n_features=24
 reframed_train_x = series_to_supervised(training_data[0].scaled_features,n_in=n_time_steps,n_out=1)
 reframed_test_x = series_to_supervised(test_data[0].scaled_features,n_in=n_time_steps,n_out= 1)
@@ -71,7 +71,7 @@ model.add(LSTM(50, input_shape=(train_X.shape[1], train_X.shape[2])))
 model.add(Dense(1))
 model.compile(loss='mae', optimizer='adam')
 # fit network
-history = model.fit(train_X, train_y, epochs=150, batch_size=10, validation_data=(test_X, test_y), verbose=2, shuffle=False)
+history = model.fit(train_X, train_y, epochs=50, batch_size=50, validation_data=(test_X, test_y), verbose=2, shuffle=False)
 
 # plot history
 pyplot.plot(history.history['loss'], label='train')
@@ -80,12 +80,12 @@ pyplot.legend()
 pyplot.show()
 
 # Save model
-model.save('LSTM_beta.h5')
+model.save('..\Models\LSTM_EL_data_fitted1_50timesteps_50epochs.h5')
+
 '''
 
-
 # Load Model
-model=load_model('..\Models\LSTM_171130_100timeSteps_150epochs_10batch.h5')
+model=load_model('LSTM_EL_data_fitted1_50timesteps_50epochs.h5')
 
 
 
