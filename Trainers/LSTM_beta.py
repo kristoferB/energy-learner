@@ -85,8 +85,8 @@ model.save('LSTM_beta.h5')
 
 
 # Load Model
-model=load_model('LSTM_beta.h5')
-model.save('LSTM_171130_100timeSteps_150epochs_10batch.h5')
+model=load_model('..\Models\LSTM_171130_100timeSteps_150epochs_10batch.h5')
+
 
 
 # make a prediction

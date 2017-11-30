@@ -42,6 +42,6 @@ class SampledDataSet:
 
     def load_160406(file_number):
         folder_path = "../Data/Formated/160406/"
-        file_name = "output_py_" + str(file_number) + ".csv"
+        file_name = "fitted_data_simple" + str(file_number) + ".csv"
         data = pd.read_csv(folder_path + file_name, sep=",")
         return data
