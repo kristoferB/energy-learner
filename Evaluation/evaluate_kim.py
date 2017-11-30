@@ -15,7 +15,7 @@ from datetime import datetime
 
 # Load Model
 model = load_model('../Models/' + '171130-151527' + '_Kim_simple.h5')
-test_data = SampledDataSet(load_171128, 2)
+test_data = SampledDataSet(load_171128, 5)
 
 
 y_hat = model.predict(test_data.scaled_features)
@@ -30,5 +30,3 @@ pyplot.legend(handles=[plt_pred, plt_meas])
 pyplot.ylabel("Power [Watt]")
 pyplot.xlabel("Time [s]")
 pyplot.show()
-
-# yolo
