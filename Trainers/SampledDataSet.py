@@ -1,6 +1,7 @@
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import pandas as pd
+from Trainers.SeriesToSupervised import series_to_supervised
 class SampledDataSet:
     """
         Use this data holder class to hold sampled data, parsed with a parsing script similar to the parse_KR40 script
@@ -10,7 +11,7 @@ class SampledDataSet:
         And so on...
 
     """
-    def __init__(self, load_function, file_number):
+    def __init__(self, load_function, file_number,time_steps=0):
         data = load_function(file_number)
         # Pick timestamps from loaded data
         self.timestamps = data.values[:, 0:1]
@@ -36,6 +37,23 @@ class SampledDataSet:
 
         # Consumed energy of sequence in [kWh]
         self.energy = sum(self.power)*(self.timestamps[1]-self.timestamps[0])/3600
+
+        # count number of features
+        n_features = self.scaled_features.shape[1]
+        if time_steps != 0:
+            # normalize
+            # reframe x
+            self.LSTM_features = series_to_supervised(self.scaled_features, n_in=time_steps, n_out=1)
+            # reframe y
+            self.output = self.scaled_output[time_steps:]
+            range_low = time_steps*n_features
+            range_upper = self.LSTM_features.shape[1]
+            self.LSTM_features.drop(self.LSTM_features.columns[[x for x in range(range_low, range_upper)]], axis=1,
+                                  inplace=True)
+            # reshape y
+            # reshape x
+            self.LSTM_features = self.LSTM_features.reshape((self.LSTM_features.shape[0], time_steps, n_features))
+
 
     def __str__(self):
         return str(self.features)
