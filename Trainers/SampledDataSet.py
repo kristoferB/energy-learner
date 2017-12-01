@@ -41,7 +41,6 @@ class SampledDataSet:
         # count number of features
         n_features = self.scaled_features.shape[1]
         if time_steps != 0:
-            # normalize
             # reframe x
             self.LSTM_features = series_to_supervised(self.scaled_features, n_in=time_steps, n_out=1)
             # reframe y
@@ -50,9 +49,11 @@ class SampledDataSet:
             range_upper = self.LSTM_features.shape[1]
             self.LSTM_features.drop(self.LSTM_features.columns[[x for x in range(range_low, range_upper)]], axis=1,
                                   inplace=True)
-            # reshape y
             # reshape x
-            self.LSTM_features = self.LSTM_features.reshape((self.LSTM_features.shape[0], time_steps, n_features))
+            self.LSTM_features = self.LSTM_features.values.reshape((self.LSTM_features.shape[0], time_steps, n_features))
+            self.scaled_features=self.LSTM_features
+            self.power=data.values[time_steps:, -1:]
+            self.timestamps = data.values[time_steps:, 0:1]
 
 
     def __str__(self):
