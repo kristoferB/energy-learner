@@ -111,7 +111,7 @@ print('Scaled p')
 print(scaled_p.shape)
 
 # Transform to supervised learning structure
-n_time_steps=5
+n_time_steps=1
 n_features=24
 reframed = series_to_supervised(scaled,n_in=n_time_steps,n_out=1)
 print('reframed')

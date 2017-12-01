@@ -34,11 +34,20 @@ class SampledDataSet:
         self.scaled_features = self.scaler_features.fit_transform(self.features)
         self.scaled_output = self.scaler_power.fit_transform(self.power)
 
+        # Consumed energy of sequence in [kWh]
+        self.energy = sum(self.power)*(self.timestamps[1]-self.timestamps[0])/3600
+
     def __str__(self):
         return str(self.features)
 
     def load_160406(file_number):
         folder_path = "../Data/Formated/160406/"
-        file_name = "output_py_" + str(file_number) + ".csv"
+        file_name = "fitted_data_simple" + str(file_number) + ".csv"
+        data = pd.read_csv(folder_path + file_name, sep=",")
+        return data
+
+    def load_171128(file_number):
+        folder_path = "../Data/Formated/171128/"
+        file_name = "EL_data_fitted"+str(file_number)+".csv"
         data = pd.read_csv(folder_path + file_name, sep=",")
         return data
