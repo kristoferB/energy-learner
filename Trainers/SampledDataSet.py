@@ -70,3 +70,10 @@ class SampledDataSet:
         file_name = "EL_data_fitted"+str(file_number)+".csv"
         data = pd.read_csv(folder_path + file_name, sep=",")
         return data
+
+    def load_171201(file_number):
+        folder_path = "../Data/Formated/171201/"
+        file_name = "EL_data_veri_fitted" + str(file_number) + ".csv"
+        data = pd.read_csv(folder_path + file_name, sep=",")
+        return data
+
