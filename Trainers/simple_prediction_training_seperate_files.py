@@ -9,24 +9,11 @@ from keras.layers import Dense
 from Trainers.SampledDataSet import SampledDataSet
 import h5py
 from datetime import datetime
+from keras.utils import plot_model
 
 """
 This is the same simple network as used in the abs acceleration example but builds on training from different files.
 """
-
-
-def load_160406(file_number):
-    folder_path = "../Data/Formated/160406/"
-    file_name = "fitted_data_simple"+str(file_number)+".csv"
-    data = pd.read_csv(folder_path + file_name, sep=",")
-    return data
-
-
-def load_171128(file_number):
-    folder_path = "../Data/Formated/171128/"
-    file_name = "EL_data_fitted"+str(file_number)+".csv"
-    data = pd.read_csv(folder_path + file_name, sep=",")
-    return data
 
 
 def plot_matrix(values):
@@ -41,16 +28,19 @@ def plot_matrix(values):
     pyplot.show()
 
 training_data = []
-# for i in range(0, 10):
-#    training_data.append(SampledDataSet(load_160406, i))
+for i in range(0, 10):
+    training_data.append(SampledDataSet(SampledDataSet.load_160406, i))
 
 for i in range(1, 6):
-    training_data.append(SampledDataSet(load_171128, i))
+    training_data.append(SampledDataSet(SampledDataSet.load_171128, i))
+
+for i in range(1, 4):
+    training_data.append(SampledDataSet(SampledDataSet.load_171201, i))
 
 (_, input_dimension) = training_data[0].features.shape
 
-training_indexes = [0, 1, 2, 3]  # , 4, 5, 6, 7, 8, 9, 11, 12, 13]
-validation_index = 4
+training_indexes = [0, 1, 2, 3, 4, 5, 6, 7] # , 8, 9, 10, 11, 12, 13, 14, 15, 16]
+validation_index = 8
 print(len(training_data))
 
 # Examples of what the arrays might look like
@@ -63,9 +53,9 @@ print(len(training_data))
 model = Sequential()
 model.add(Dense(input_dimension, input_dim=input_dimension, activation="relu"))
 model.add(Dense(24, activation="relu"))
-model.add(Dense(24, activation="sigmoid"))
+model.add(Dense(24, activation="relu"))
 model.add(Dense(12, activation="relu"))
-model.add(Dense(6, activation="sigmoid"))
+model.add(Dense(6, activation="relu"))
 model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer="adam", loss="mean_squared_error")
@@ -73,7 +63,7 @@ model.compile(optimizer="adam", loss="mean_squared_error")
 val_loss = []
 
 for i in training_indexes:
-    history = model.fit(training_data[i].scaled_features, training_data[i].scaled_output, batch_size=26, epochs=60,
+    history = model.fit(training_data[i].scaled_features, training_data[i].scaled_output, batch_size=26, epochs=160,
                         validation_data=(training_data[validation_index].scaled_features, training_data[validation_index].scaled_output),
                         verbose=2, shuffle=False)
     val_loss += history.history['val_loss']
@@ -99,16 +89,15 @@ pyplot.ylabel("Power [Watt]")
 pyplot.xlabel("Time [s]")
 pyplot.show()
 
-should_save = input("Do you want to save the mode? (y/n)")
+
+should_save = input("Do you want to save the mode? (y/n): ")
 
 if should_save == 'y' or should_save == 'Y':
-    model.save('../Models/' + datetime.now().strftime('%y%m%d-%H%M%S') + '_Kim_simple.h5')
+    model.save('../Models/' + datetime.now().strftime('%y%m%d-%H%M') + '_Kim_simple.h5')
 
 
 
-#
 # Prediction on another datafile
-#
 """
 def load_R30_original(filenumber):
     folder_path = "../Data/Formated/"
