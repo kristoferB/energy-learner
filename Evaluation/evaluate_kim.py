@@ -12,9 +12,9 @@ from keras.utils import plot_model
 import h5py
 
 # Load Model
-model = load_model('../Models/' + '171130-151527' + '_Kim_simple.h5')
+model = load_model('../Models/' + '171205-0932' + '_Kim_simple.h5')
 
-test_data = SampledDataSet(SampledDataSet.load_171201, 3)
+test_data = SampledDataSet(SampledDataSet.load_171128, 4)
 
 
 y_hat = model.predict(test_data.scaled_features)
@@ -22,6 +22,11 @@ y_inv = test_data.scaler_power.inverse_transform(y_hat)
 plt_pred, = pyplot.plot(test_data.timestamps, y_inv, label='Prediction')
 plt_meas, = pyplot.plot(test_data.timestamps, test_data.power, label='Measurement')
 
+y_energy = sum(y_inv)*(test_data.timestamps[1]-test_data.timestamps[0])/3600
+
+print(y_energy)
+print(test_data.energy)
+print((test_data.energy-y_energy)/test_data.energy)
 # calculate RMSE
 rmse = sqrt(mean_squared_error(y_inv, test_data.power))
 print('RMSE: %.3f' % rmse)
