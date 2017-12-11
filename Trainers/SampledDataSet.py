@@ -35,9 +35,10 @@ class SampledDataSet:
         self.scaled_features = self.scaler_features.fit_transform(self.features)
         self.scaled_output = self.scaler_power.fit_transform(self.power)
 
-        # Consumed energy of sequence in [kWh]
-        self.energy = sum(self.power)*(self.timestamps[1]-self.timestamps[0])/3600
 
+        self.dT=self.timestamps[1]-self.timestamps[0]
+        self.energy = sum(np.multiply(self.power,self.dT))  # [Joules]
+        self.energy = np.divide(self.energy, 3600000)  # [kWh]
         # count number of features
         n_features = self.scaled_features.shape[1]
         if time_steps != 0:

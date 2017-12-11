@@ -15,14 +15,18 @@ import h5py
 # Define data structure
 training_data = []
 test_data = []
+training_data.append(SampledDataSet(SampledDataSet.load_171128, 1))
 training_data.append(SampledDataSet(SampledDataSet.load_171128, 2))
-test_data.append(SampledDataSet(SampledDataSet.load_171128, 3))
+training_data.append(SampledDataSet(SampledDataSet.load_171128, 3))
+training_data.append(SampledDataSet(SampledDataSet.load_171128, 4))
+training_data.append(SampledDataSet(SampledDataSet.load_171128, 5))
+test_data.append(SampledDataSet(SampledDataSet.load_171201, 3))
 
 print('train data')
 print(training_data[0].scaled_features.shape)
 
 # convert training time-series to supervised learning
-n_time_steps=100
+n_time_steps=5
 n_features=24
 reframed_train_x = series_to_supervised(training_data[0].scaled_features,n_in=n_time_steps,n_out=1)
 reframed_test_x = series_to_supervised(test_data[0].scaled_features,n_in=n_time_steps,n_out= 1)
@@ -64,7 +68,7 @@ train_X = train_X.reshape((train_X.shape[0], n_time_steps, n_features))
 test_X = test_X.reshape((test_X.shape[0], n_time_steps, n_features))
 print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
-'''
+
 # design network
 model = Sequential()
 model.add(LSTM(50,input_shape=(train_X.shape[1], train_X.shape[2])))
@@ -82,10 +86,10 @@ pyplot.show()
 # Save model
 #model.save('..\Models\LSTM_EL_data_fitted1_50timesteps_50epochs_tanh_forgetBias.h5')
 
-'''
+
 
 # Load Model
-model=load_model('...\Models\LSTM_EL_data_fitted1_50timesteps_50epochs.h5')
+#model=load_model('...\Models\LSTM_EL_data_fitted1_50timesteps_50epochs.h5')
 
 
 
@@ -129,4 +133,4 @@ should_save = input("Do you want to save the mode? (y/n)")
 
 if should_save == 'y' or should_save == 'Y':
     name= input("Maodel specifications")
-    model.save('../Models/' + '171128-2_LSTM'+name+'.h5')
+    model.save('../Models/' + '171128-1to5_LSTM'+name+'.h5')
